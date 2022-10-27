@@ -6,11 +6,11 @@ export default function Department() {
   const path = process.env.PUBLIC_URL;
   const [Members, setMembers] = useState([]);
 
-  useEffect(() => {
-    axios.get(`${path}/DB/members.json`).then((json) => {
-      setMembers(json.data.members);
-    })
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`${path}/DB/members.json`).then((json) => {
+  //     setMembers(json.data.members);
+  //   })
+  // }, []);
 
 
   return (

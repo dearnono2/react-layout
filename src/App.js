@@ -1,6 +1,8 @@
-
-
 import { Route, Switch } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setYoutube, setMembers } from './redux/action';
+import axios from 'axios';
 
 //common
 import Header from './components/common/Header';
@@ -22,6 +24,29 @@ import Youtube from './components/sub/Youtube';
 
 import './scss/style.scss';
 function App() {
+	const dispatch = useDispatch();
+
+	const getYoutube = async () => {
+		const key = 'AIzaSyCtN1lqIIdi7ibHkYVCtVtP9vA4oz8j8n8';
+    const playList = 'PLlXUbM-Wv86W_pA2wzZgQ7pF1VeHP6At4';
+    const num = 6; // 재생목록의 불러올 비디오 갯수
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playList}&maxResults=${num}`;
+
+		const result = await axios.get(url);
+		dispatch(setYoutube(result.data.items));
+	}
+
+	const getMembers = async () => {
+		const url = process.env.PUBLIC_URL+'/DB/members.json';
+		const result = await axios.get(url);
+		dispatch(setMembers(result.data.members))
+	}
+
+	useEffect(() => {
+		getYoutube();
+		getMembers();
+  }, []);
+
 	return (
 		<>
 			{/* Switch는 같은 경로의 라우터 연결시 구체적인 라우터 하나만 적용한다. */}

@@ -1,24 +1,14 @@
 import Layout from "../common/Layout"
-import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import Popup from "../common/Popup";
+import { useSelector } from "react-redux";
 
 export default function Youtube() {
+  // 순서1- 처음 랜더링시 store에서 전달되는 값은 빈 배열이므로 아래 리턴문에는 순간적으로 출력되는 내용이 없음. 
+  // 순서3 - axios로 전달받은 값으로 기존 store값이 변경되면 다시 Vids값에는 변경된 store값이 담기면서 아래 리스트가 출력됨.
+  const Vids = useSelector(store => store.youtubeReducer.youtube);
   const pop = useRef(null);
-  const [Vids, setVids] = useState([]);
   const [Index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const key = 'AIzaSyCtN1lqIIdi7ibHkYVCtVtP9vA4oz8j8n8';
-    const playList = 'PLlXUbM-Wv86W_pA2wzZgQ7pF1VeHP6At4';
-    const num = 6; // 재생목록의 불러올 비디오 갯수
-    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playList}&maxResults=${num}`;
-
-    axios.get(url).then((json) => {
-      // console.log(json.data);
-      setVids(json.data.items);
-    })
-  }, []);
 
   return (
     <>
@@ -56,7 +46,6 @@ export default function Youtube() {
         )}
       </Popup>
     </>
-
   )
 }
 

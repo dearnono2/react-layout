@@ -46,7 +46,9 @@ function News() {
       })}
 
       {
-        Members.map((member) => {
+        Members.map((member, idx) => {
+          // news에서 member 2명의 값만 전달되게 하기
+          if(idx >= 2) return;
           return(
             <p key={member.name}>{member.name}</p>
           )

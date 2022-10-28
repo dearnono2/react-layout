@@ -19,13 +19,26 @@ import axios from "axios";
       url = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1&user_id=${opt.user}`;
     }
 
-    // await axios.get(url).then((json) => {
-    //   setItems(result.data.photos.photo);
-    // })
 
     return await axios.get(url);
 
   };
+
+  export const getYoutube = async () => {
+		const key = 'AIzaSyCtN1lqIIdi7ibHkYVCtVtP9vA4oz8j8n8';
+    const playList = 'PLlXUbM-Wv86W_pA2wzZgQ7pF1VeHP6At4';
+    const num = 6; // 재생목록의 불러올 비디오 갯수
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playList}&maxResults=${num}`;
+
+		return await axios.get(url);
+	}
+
+  export const getMembers = async () => {
+    const url = process.env.PUBLIC_URL + '/DB/members.json';
+    return await axios.get(url);
+  }
+
+  
 
   /**
     redux로 관리되는 파일들은 컴포넌트 외부에서 전역으로 동작하기 때문에 부수효과를 발생시키지 않는 순수함수 형태로 제작. 

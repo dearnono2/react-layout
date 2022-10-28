@@ -7,8 +7,9 @@
 */
 
 import { takeLatest, all, put, fork, call } from 'redux-saga/effects';
-import { getFlickr } from './api';
+import { getFlickr, getYoutube, getMembers } from './api';
 
+// flickr 비동가처리 함수
 // 컴포넌트에서 action타입 요청시 api.js에 있는 axios함수를 연결해서 호출하는 함수
 function* returnFlickr(action){
   // 컴포넌트에서 getFlickr에 필요한 옵션객체값만 action에 담아서 전달하면 
@@ -23,7 +24,30 @@ function* callFlickr() {
   yield takeLatest('FLICKR_START', returnFlickr);
 }
 
+
+// youtube 비동기처리 함수
+function* returnYoutube(){
+
+  const response = yield call(getYoutube);
+  yield put({type: 'YOUTUBE_SUCCESS', payload: response.data.items })
+}
+
+function* callYoutube() {
+
+  yield takeLatest('YOUTUBE_START', returnYoutube);
+}
+
+// members 비동기처리 함수
+function* returnMembers(){
+  const response = yield call(getMembers);
+  yield put({type: 'MEMBERS_SUCCESS', payload: response.data.members })
+}
+
+function* callMembers() {
+  yield takeLatest('MEMBERS_START', returnMembers);
+}
+
 // store.js에 의해 reducer에 미들웨어로 적용할 rootSaga함수 생성
 export default function* rootSaga() {
-  yield all([fork(callFlickr)]);
+  yield all([fork(callFlickr), fork(callYoutube), fork(callMembers)]);
 }

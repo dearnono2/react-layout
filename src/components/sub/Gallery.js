@@ -79,7 +79,6 @@ export default function Gallery() {
 			setLoading(false);
 			setEnableClick(true);
 		}, 500);
-
 	}, [Items])
 
 
@@ -110,7 +109,6 @@ export default function Gallery() {
 
 				<div className="frame" ref={frame}>
 					<Masonry elementType={'div'} options={masonryOptions}>
-
 
 						{Items.map((item, idx) => {
 							return (

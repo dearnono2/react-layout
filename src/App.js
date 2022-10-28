@@ -26,15 +26,6 @@ import './scss/style.scss';
 function App() {
 	const dispatch = useDispatch();
 
-	const getYoutube = async () => {
-		const key = 'AIzaSyCtN1lqIIdi7ibHkYVCtVtP9vA4oz8j8n8';
-    const playList = 'PLlXUbM-Wv86W_pA2wzZgQ7pF1VeHP6At4';
-    const num = 6; // 재생목록의 불러올 비디오 갯수
-    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playList}&maxResults=${num}`;
-
-		const result = await axios.get(url);
-		dispatch(setYoutube(result.data.items));
-	}
 
 	const getMembers = async () => {
 		const url = process.env.PUBLIC_URL+'/DB/members.json';
@@ -43,8 +34,9 @@ function App() {
 	}
 
 	useEffect(() => {
-		getYoutube();
-		getMembers();
+		dispatch({ type: 'MEMBERS_START' })
+		dispatch({ type: 'YOUTUBE_START' })
+		dispatch({ type: 'FLICKR_START', Opt: { type: 'user', user: '196712274@N08' }})
   }, []);
 
 	return (

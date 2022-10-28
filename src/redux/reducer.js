@@ -3,7 +3,7 @@
 import { combineReducers } from "redux";
 
 
-const memberReducer = (state = {members: []}, action) => {
+const memberReducer = (state = { members: [] }, action) => {
   switch (action.type) {
     case 'SET_MEMBERS':
       return {...state, members: action.payload}
@@ -23,7 +23,26 @@ const youtubeReducer = (state = { youtube: [] }, action) => {
   }
 }
 
+const flickrReducer = (state = { flickr: [] }, action) => {
+  switch(action.type) {
+    // 요청 시작
+    case 'FLICKR_START' : 
+      return state;
+
+    // 요청 성공
+    case 'FLICKR_SUCCESS' :
+      return {...state, flickr: action.payload}
+
+    // 요청 실패
+    case 'FLICKR_FAIL' :
+      return {...state, flickr: action.payload}
+
+    default:
+      return state;
+  }
+}
+
 // 전달된 각각의 reducer 데이터를 하나로 합쳐서 반환.
-const reducers = combineReducers({ memberReducer, youtubeReducer });
+const reducers = combineReducers({ memberReducer, youtubeReducer, flickrReducer });
 
 export default reducers;
